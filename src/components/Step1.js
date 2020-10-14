@@ -14,7 +14,7 @@ const Step1 = ({ setForm, form }) => {
       setForm({
         step: 1,
         info: form.info,
-        dishes: [],
+        dishes: form.dishes,
       });
     }
   };
@@ -43,7 +43,7 @@ const Step1 = ({ setForm, form }) => {
         },
         ...form.info.slice(1, 2),
       ],
-      dishes: [],
+      dishes: form.dishes,
     });
   };
 
@@ -63,6 +63,7 @@ const Step1 = ({ setForm, form }) => {
           label="Please Enter Number of people"
           defaultValue={form.info[0].numberOfPeople}
           onChange={changeNumberOfPeople}
+          value={form.info[0].numberOfPeople}
         />
       </main>
       <footer className="footer-step1">

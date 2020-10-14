@@ -13,7 +13,13 @@ const Step4 = ({ form, setForm }) => {
     });
   };
 
-  const next = () => {};
+  const next = () => {
+    setForm({
+      step: 4,
+      info: form.info,
+      dishes: form.dishes,
+    });
+  };
   return (
     <>
       <header>

@@ -29,7 +29,7 @@ const Step2 = ({ setForm, data, form }) => {
     setForm({
       step: 0,
       info: form.info,
-      dishes: [],
+      dishes: form.dishes,
     });
   };
 

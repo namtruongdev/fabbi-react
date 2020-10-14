@@ -19,6 +19,8 @@ const Step3 = ({ form, data, setForm }) => {
     const key = form.dishes[form.dishes.length - 1][0];
     if (form.dishes[key][1] === '---') {
       message.error('You have not chosen a Dish!');
+    } else if (form.dishes.length > 10 || form.dishes.length >= dish.length) {
+      message.error('The limit of food registration is exceeded!');
     } else {
       setForm({
         step: form.step,
@@ -34,7 +36,8 @@ const Step3 = ({ form, data, setForm }) => {
     const pos = data.pos;
 
     if (len !== 0) {
-      if (form.dishes[pos][1] === value) {
+      const checkDuplicate = form.dishes.some((name) => name[1] === value);
+      if (checkDuplicate === true) {
         message.error('Cannot choose a dish twice!');
       } else {
         setForm({
@@ -57,17 +60,22 @@ const Step3 = ({ form, data, setForm }) => {
   };
 
   const onChangeNoOfServings = (e) => {
-    const value = e.target.value;
+    const value = parseInt(e.target.value);
     const key = parseInt(e.target.dataset.id);
-    setForm({
-      step: form.step,
-      info: form.info,
-      dishes: [
-        ...form.dishes.slice(0, key),
-        [key, form.dishes[key][1], value],
-        ...form.dishes.slice(key + 1),
-      ],
-    });
+
+    if (value > 10) {
+      message.error('Only choose up to 10 servings!');
+    } else {
+      setForm({
+        step: form.step,
+        info: form.info,
+        dishes: [
+          ...form.dishes.slice(0, key),
+          [key, form.dishes[key][1], value],
+          ...form.dishes.slice(key + 1),
+        ],
+      });
+    }
   };
 
   const previous = () => {
@@ -79,8 +87,13 @@ const Step3 = ({ form, data, setForm }) => {
   };
 
   const next = () => {
-    if (form.dishes.length === 0) {
+    const checkEmpty = form.dishes.some((value) => value[1] === '---');
+    if (form.dishes.length === 0 || checkEmpty === true) {
       message.error('You have not chosen a Dish!');
+    } else if (form.dishes.length < form.info[0].numberOfPeople) {
+      message.error(
+        'You have not chosen a DishThe total number of dishes must be greater than or equal to the number of people eating!'
+      );
     } else {
       setForm({
         step: 3,
